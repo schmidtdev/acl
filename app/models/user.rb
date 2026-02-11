@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :permissions, through: :user_permissions
 
   def can?(key)
-    permissions.exists?(key: key)
+    @permission_keys ||= permissions.pluck(:key).to_set
+    @permission_keys.include?(key)
   end
 end
