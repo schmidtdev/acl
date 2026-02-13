@@ -40,6 +40,7 @@ class UsersController < ApplicationController
 
   def destroy
     authorize @user
+    return render json: { error: "system user cannot be deleted" }, status: :forbidden if @user.system?
     @user.destroy!
     head :no_content
   end

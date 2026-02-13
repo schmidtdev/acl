@@ -9,6 +9,11 @@ class UserPermissionsController < ApplicationController
   def create
     authorize :user_permission, :create?
 
+    if @target_user.system?
+      return render json: { error: "permissions of system user cannot be changed" }, status: :forbidden
+    end
+    
+
     keys = Array(params[:permission_keys]).map(&:to_s).map(&:strip).reject(&blank?).uniq
     return render json: { error: "No permission keys provided" }, status: :bad_request if keys.empty?
 
@@ -31,6 +36,11 @@ class UserPermissionsController < ApplicationController
 
   def destroy
     authorize :user_permission, :destroy?
+
+    if @target_user.system?
+      return render json: { error: "permissions of system user cannot be changed" }, status: :forbidden
+    end
+    
 
     key = params[:id].to_s
 

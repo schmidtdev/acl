@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_10_174956) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_13_134311) do
   create_table "jwt_denyllists", force: :cascade do |t|
     t.string "jti"
     t.datetime "exp"
@@ -44,8 +44,10 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_10_174956) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "system", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["system"], name: "index_users_on_system"
   end
 
   add_foreign_key "user_permissions", "permissions"
